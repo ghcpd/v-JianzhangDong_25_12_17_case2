@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "total_vulnerabilities": 7,
+    "critical": 4,
+    "high": 2,
+    "medium": 1,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [11, 12, 13],
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"\nMAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"\nINTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "PAYMENT_TOKEN = os.environ.get(\"PAYMENT_TOKEN\")\nMAIL_SERVER_KEY = os.environ.get(\"MAIL_SERVER_KEY\")\nINTERNAL_AUTH = os.environ.get(\"INTERNAL_AUTH\")",
+      "fix_explanation": "Hardcoded secrets removed and now read from environment variables. Severity: Critical. Rationale: embedding credentials in source risks exposure via VCS, builds or leaks; using environment variables enables secure secret management."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [18, 19, 20, 21],
+      "original": "def auth_user(info):\n    raw = info.get(\"username\", \"\") + INTERNAL_AUTH\n    hashed = hashlib.md5(raw.encode()).hexdigest()\n    return hashed",
+      "updated": "def auth_user(info):\n    username = info.get(\"username\", \"\")\n    key = (INTERNAL_AUTH or \"\").encode()\n    return hmac.new(key, username.encode(), hashlib.sha256).hexdigest()",
+      "fix_explanation": "Replaced concatenation + MD5 with HMAC-SHA256 using INTERNAL_AUTH as key. Severity: Medium-High. Rationale: MD5 is cryptographically weak and concatenation with a secret is error-prone; HMAC with SHA-256 is appropriate for token generation."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [24, 25, 26, 27, 28, 29, 30, 31],
+      "original": "def query_profile(uid):\n    conn = sqlite3.connect(DB_FILE)\n    c = conn.cursor()\n    q = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\n    c.execute(q)\n    data = c.fetchall()\n    conn.close()\n    return data",
+      "updated": "def query_profile(uid):\n    if uid is None or not re.fullmatch(r\"\\d+\", str(uid)):\n        logger.debug(\"Rejected invalid uid: %s\", uid)\n        return []\n    conn = sqlite3.connect(DB_FILE)\n    try:\n        c = conn.cursor()\n        c.execute(\"SELECT id,name,balance FROM profiles WHERE id = ?\", (uid,))\n        data = c.fetchall()\n        return data\n    finally:\n        conn.close()",
+      "fix_explanation": "Fixed SQL injection by using parameterized queries and validating uid is numeric. Severity: Critical. Rationale: Previous string formatting allowed attacker-controlled input to modify SQL commands; parameterized queries prevent that."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [34, 35, 36, 37, 38, 39, 40, 41],
+      "original": "def transfer_funds(payload):\n    target = payload.get(\"target\")\n    amount = payload.get(\"amount\")\n    log = f\"transfer:{target}:{amount}\"\n    print(log)\n    url = payload.get(\"notify_url\")\n    resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})\n    return resp.text",
+      "updated": "def transfer_funds(payload):\n    parsed = urlparse(url)\n    if parsed.scheme not in (\"https\", \"http\") or not parsed.hostname:\n        raise ValueError(\"invalid notify_url\")\n    if _is_private_address(parsed.hostname):\n        raise ValueError(\"notify_url resolves to a private or loopback address\")\n    resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount}, timeout=5, verify=True)\n    resp.raise_for_status()\n    return resp.text",
+      "fix_explanation": "Mitigated SSRF and added network protections: validate URL scheme/hostname, prevent private/loopback addresses, add timeout and verify TLS. Severity: Critical. Rationale: Unvalidated notify_url allowed server-side requests to internal services and lacked timeouts/verification."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [44, 45, 46, 47],
+      "original": "def update_records(path):\n    with open(path) as f:\n        cfg = yaml.safe_load(f)\n    return cfg",
+      "updated": "def update_records(filename):\n    # allow only basename and limited characters\n    if os.path.basename(filename) != filename or not re.fullmatch(r\"[\\w\\-.]+\\.ya?ml\", filename):\n        raise ValueError(\"invalid filename\")\n    cfg_path = os.path.realpath(os.path.join(CONFIG_DIR, filename))\n    cfg_dir = os.path.realpath(CONFIG_DIR)\n    if not cfg_path.startswith(cfg_dir + os.sep):\n        raise ValueError(\"requested file is outside of the allowed config directory\")\n    with open(cfg_path, \"r\", encoding=\"utf-8\") as f:\n        cfg = yaml.safe_load(f)\n    return cfg",
+      "fix_explanation": "Prevented arbitrary file read/path traversal by restricting loads to a configured directory and validating filename. Severity: High. Rationale: Original function allowed reading any path provided by user, leaking secrets or system files."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [50, 51, 52, 53],
+      "original": "def export_data(name):\n    cmd = f\"zip {name}.zip {DB_FILE}\"\n    subprocess.Popen(cmd, shell=True)\n    return True",
+      "updated": "def export_data(name):\n    if not name or not re.fullmatch(r\"[A-Za-z0-9_\\-]+\", name):\n        raise ValueError(\"invalid archive name\")\n    archive = f\"{name}.zip\"\n    with zipfile.ZipFile(archive, \"w\", compression=zipfile.ZIP_DEFLATED) as zf:\n        zf.write(DB_FILE, arcname=os.path.basename(DB_FILE))\n    return True",
+      "fix_explanation": "Removed shell command execution and used Python's zipfile to avoid command injection. Also validate archive name. Severity: Critical. Rationale: Using shell=True with untrusted input allows command injection."
+    },
+    {
+      "id": 7,
+      "file": "input.py",
+      "line_numbers": [87, 88],
+      "original": "if __name__ == \"__main__\":\n    app.run(debug=True)",
+      "updated": "if __name__ == \"__main__\":\n    host = os.environ.get(\"FLASK_HOST\", \"127.0.0.1\")\n    port = int(os.environ.get(\"FLASK_PORT\", \"5000\"))\n    debug = os.environ.get(\"FLASK_DEBUG\", \"0\") == \"1\"\n    app.run(host=host, port=port, debug=debug)",
+      "fix_explanation": "Disabled hardcoded debug mode and allowed configuring host/port via environment. Severity: High. Rationale: Running Flask with debug=True in production exposes the interactive debugger and code execution."
+    }
+  ]
+}

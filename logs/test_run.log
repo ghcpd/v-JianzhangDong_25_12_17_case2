@@ -1,0 +1,80 @@
+2025-12-17T06:46:56Z AUTO_TEST START
+2025-12-17T06:46:56Z BEGIN TEST input_backup.py
+2025-12-17T06:46:57Z FILE=input_backup.py RC=1
+2025-12-17T06:46:57Z OUTPUT input_backup.py: input_backup.py: VULNERABILITIES FOUND:
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - hardcoded payment token (pattern: PAYMENT_TOKEN\s*=\s*\")
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - hardcoded mail server key (pattern: MAIL_SERVER_KEY\s*=\s*\")
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - hardcoded internal auth (pattern: INTERNAL_AUTH\s*=\s*\")
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - use of md5 hash (pattern: hashlib\.md5)
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - string-formatted SQL (possible SQL injection) (pattern: WHERE id = '%s')
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - unvalidated outbound request (possible SSRF) (pattern: requests\.post\([^,]*notify_url|requests\.post\(url)
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - shell=True usage (command injection) (pattern: subprocess\.Popen\([^)]*shell=\s*True)
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - unsanitized open + yaml.safe_load (path traversal / arbitrary file read) (pattern: open\([^)]*\)\s*as\s*f:\s*\n\s*\s*cfg\s*=\s*yaml\.safe_load)
+2025-12-17T06:46:57Z OUTPUT input_backup.py:  - debug server enabled in source (pattern: app\.run\(debug=True\))
+2025-12-17T06:46:57Z END TEST input_backup.py
+2025-12-17T06:46:57Z BEGIN TEST input.py
+2025-12-17T06:46:57Z FILE=input.py RC=1
+2025-12-17T06:46:57Z OUTPUT input.py: input.py: VULNERABILITIES FOUND:
+2025-12-17T06:46:57Z OUTPUT input.py:  - unvalidated outbound request (possible SSRF) (pattern: requests\.post\([^,]*notify_url|requests\.post\(url)
+2025-12-17T06:46:57Z OUTPUT input.py:  - unsanitized open + yaml.safe_load (path traversal / arbitrary file read) (pattern: open\([^)]*\)\s*as\s*f:\s*\n\s*\s*cfg\s*=\s*yaml\.safe_load)
+2025-12-17T06:46:57Z END TEST input.py
+2025-12-17T06:46:57Z BEGIN PLATFORM WRAPPER: cmd /c run_test.bat
+2025-12-17T06:46:57Z PLATFORM_WRAPPER_RC=2
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: Running security checks on input_backup.py (expected to FAIL)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: input_backup.py: VULNERABILITIES FOUND:
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - hardcoded payment token (pattern: PAYMENT_TOKEN\s*=\s*\")
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - hardcoded mail server key (pattern: MAIL_SERVER_KEY\s*=\s*\")
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - hardcoded internal auth (pattern: INTERNAL_AUTH\s*=\s*\")
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - use of md5 hash (pattern: hashlib\.md5)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - string-formatted SQL (possible SQL injection) (pattern: WHERE id = '%s')
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - unvalidated outbound request (possible SSRF) (pattern: requests\.post\([^,]*notify_url|requests\.post\(url)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - shell=True usage (command injection) (pattern: subprocess\.Popen\([^)]*shell=\s*True)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - unsanitized open + yaml.safe_load (path traversal / arbitrary file read) (pattern: open\([^)]*\)\s*as\s*f:\s*\n\s*\s*cfg\s*=\s*yaml\.safe_load)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - debug server enabled in source (pattern: app\.run\(debug=True\))
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: input_backup.py correctly flagged as vulnerable
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: Running security checks on input.py (expected to PASS)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: input.py: VULNERABILITIES FOUND:
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - unvalidated outbound request (possible SSRF) (pattern: requests\.post\([^,]*notify_url|requests\.post\(url)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT:  - unsanitized open + yaml.safe_load (path traversal / arbitrary file read) (pattern: open\([^)]*\)\s*as\s*f:\s*\n\s*\s*cfg\s*=\s*yaml\.safe_load)
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: ERROR: input.py still has vulnerabilities
+2025-12-17T06:46:57Z PLATFORM_OUTPUT: TEST FAILED
+2025-12-17T06:46:57Z END PLATFORM WRAPPER
+2025-12-17T06:46:57Z TEST FAILED
+2025-12-17T06:47:18Z AUTO_TEST START
+2025-12-17T06:47:18Z BEGIN TEST input_backup.py
+2025-12-17T06:47:18Z FILE=input_backup.py RC=1
+2025-12-17T06:47:18Z OUTPUT input_backup.py: input_backup.py: VULNERABILITIES FOUND:
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - hardcoded payment token (pattern: PAYMENT_TOKEN\s*=\s*\")
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - hardcoded mail server key (pattern: MAIL_SERVER_KEY\s*=\s*\")
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - hardcoded internal auth (pattern: INTERNAL_AUTH\s*=\s*\")
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - use of md5 hash (pattern: hashlib\.md5)
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - string-formatted SQL (possible SQL injection) (pattern: WHERE id = '%s')
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - unvalidated outbound request (possible SSRF) (pattern: requests\.post\([^,]*notify_url|requests\.post\(url)
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - shell=True usage (command injection) (pattern: subprocess\.Popen\([^)]*shell=\s*True)
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - unsanitized open + yaml.safe_load (path traversal / arbitrary file read) (pattern: open\([^)]*\)\s*as\s*f:\s*\n\s*\s*cfg\s*=\s*yaml\.safe_load)
+2025-12-17T06:47:18Z OUTPUT input_backup.py:  - debug server enabled in source (pattern: app\.run\(debug=True\))
+2025-12-17T06:47:18Z END TEST input_backup.py
+2025-12-17T06:47:18Z BEGIN TEST input.py
+2025-12-17T06:47:18Z FILE=input.py RC=0
+2025-12-17T06:47:18Z OUTPUT input.py: input.py: OK - no vulnerable patterns detected
+2025-12-17T06:47:18Z END TEST input.py
+2025-12-17T06:47:18Z BEGIN PLATFORM WRAPPER: cmd /c run_test.bat
+2025-12-17T06:47:18Z PLATFORM_WRAPPER_RC=0
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: Running security checks on input_backup.py (expected to FAIL)
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: input_backup.py: VULNERABILITIES FOUND:
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - hardcoded payment token (pattern: PAYMENT_TOKEN\s*=\s*\")
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - hardcoded mail server key (pattern: MAIL_SERVER_KEY\s*=\s*\")
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - hardcoded internal auth (pattern: INTERNAL_AUTH\s*=\s*\")
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - use of md5 hash (pattern: hashlib\.md5)
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - string-formatted SQL (possible SQL injection) (pattern: WHERE id = '%s')
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - unvalidated outbound request (possible SSRF) (pattern: requests\.post\([^,]*notify_url|requests\.post\(url)
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - shell=True usage (command injection) (pattern: subprocess\.Popen\([^)]*shell=\s*True)
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - unsanitized open + yaml.safe_load (path traversal / arbitrary file read) (pattern: open\([^)]*\)\s*as\s*f:\s*\n\s*\s*cfg\s*=\s*yaml\.safe_load)
+2025-12-17T06:47:18Z PLATFORM_OUTPUT:  - debug server enabled in source (pattern: app\.run\(debug=True\))
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: input_backup.py correctly flagged as vulnerable
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: Running security checks on input.py (expected to PASS)
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: input.py: OK - no vulnerable patterns detected
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: input.py passed security checks
+2025-12-17T06:47:18Z PLATFORM_OUTPUT: TEST PASSED
+2025-12-17T06:47:18Z END PLATFORM WRAPPER
+2025-12-17T06:47:18Z TEST PASSED
