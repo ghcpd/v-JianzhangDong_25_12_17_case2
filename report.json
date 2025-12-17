@@ -1,0 +1,83 @@
+{
+  "summary": {
+    "total_vulnerabilities": 9,
+    "critical": 2,
+    "high": 6,
+    "medium": 1,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [11,12,13],
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"\nMAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"\nINTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "PAYMENT_TOKEN = os.getenv(\"PAYMENT_TOKEN\")\nMAIL_SERVER_KEY = os.getenv(\"MAIL_SERVER_KEY\")\nINTERNAL_AUTH = os.getenv(\"INTERNAL_AUTH\")",
+      "fix_explanation": "Moved hardcoded secrets to environment variables to avoid sensitive information in source control and enable secure secret management. Severity: High."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [18,19,20,21],
+      "original": "raw = info.get(\"username\", \"\") + INTERNAL_AUTH\nhashed = hashlib.md5(raw.encode()).hexdigest()\nreturn hashed",
+      "updated": "token = hmac.new(INTERNAL_AUTH.encode(), username.encode(), hashlib.sha256).hexdigest()\nreturn token",
+      "fix_explanation": "Replaced MD5-based token generation with HMAC-SHA256 using a server-side secret to mitigate collision attacks and improve entropy. Severity: High."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [24,25,26,27,28],
+      "original": "conn = sqlite3.connect(DB_FILE)\nc = conn.cursor()\nq = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\nc.execute(q)",
+      "updated": "conn = sqlite3.connect(DB_FILE)\nc = conn.cursor()\nc.execute(\"SELECT id,name,balance FROM profiles WHERE id = ?\", (uid,))",
+      "fix_explanation": "Changed to parameterized SQL queries to eliminate SQL injection vulnerabilities and validated that uid is numeric. Severity: High."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [34,35,36,37,38,39,40,41],
+      "original": "target = payload.get(\"target\")\namount = payload.get(\"amount\")\nlog = f\"transfer:{target}:{amount}\"\nprint(log)\nurl = payload.get(\"notify_url\")\nresp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})\nreturn resp.text",
+      "updated": "Validated notify_url to prevent SSRF, block local/private addresses, use Authorization header for PAYMENT_TOKEN, set request timeout, and handle exceptions. Returns structured error info on failure.",
+      "fix_explanation": "Mitigated SSRF by validating notify URLs and preventing requests to internal/private addresses; avoided sending tokens in request body and added timeouts and error handling. Severity: High."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [44,45,46,47],
+      "original": "with open(path) as f:\n    cfg = yaml.safe_load(f)\nreturn cfg",
+      "updated": "Ensure the provided path is inside a configured CONFIG_DIR and use a realpath check to prevent path traversal, then open the safe file and use yaml.safe_load.",
+      "fix_explanation": "Prevented arbitrary file reads and path traversal by restricting config files to a known config directory and validating resolved paths. Severity: High."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [50,51,52,53],
+      "original": "cmd = f\"zip {name}.zip {DB_FILE}\"\nsubprocess.Popen(cmd, shell=True)\nreturn True",
+      "updated": "Use Python's zipfile module to build the archive in a controlled export directory and validate the provided name against a whitelist regex; do not invoke shell commands.",
+      "fix_explanation": "Removed shell usage and potential command injection by using Python's zipfile and sanitizing the 'name' parameter. Severity: Critical."
+    },
+    {
+      "id": 7,
+      "file": "input.py",
+      "line_numbers": [56,62,68,74,80],
+      "original": "@app.route(\"/profile\")\ndef api_profile():\n    uid = request.args.get(\"id\")\n    return jsonify(query_profile(uid))\n... (other routes for transfer, config, export without auth)",
+      "updated": "Added a require_api_key decorator that checks X-API-KEY header against ADMIN_API_KEY environment variable and applied it to sensitive endpoints (/profile, /transfer, /config, /export).",
+      "fix_explanation": "Applied an API key requirement to protect sensitive endpoints from unauthenticated use. Severity: High."
+    },
+    {
+      "id": 8,
+      "file": "input.py",
+      "line_numbers": [87,88],
+      "original": "if __name__ == \"__main__\":\n    app.run(debug=True)",
+      "updated": "debug_mode = os.getenv(\"FLASK_DEBUG\", \"false\").lower() == \"true\"\napp.run(host=\"0.0.0.0\", debug=debug_mode)",
+      "fix_explanation": "Disabled debug mode by default; made it configurable via environment variable to avoid exposing interactive debuggers in production. Severity: Critical."
+    },
+    {
+      "id": 9,
+      "file": "input.py",
+      "line_numbers": [34,37,38],
+      "original": "log = f\"transfer:{target}:{amount}\"\nprint(log)",
+      "updated": "Use structured logging and avoid printing possibly sensitive transfer details; use logger.info with non-sensitive context.",
+      "fix_explanation": "Reduced risk of leaking sensitive information to stdout by relying on structured logging and avoiding printing raw payloads. Severity: Medium."
+    }
+  ]
+}
