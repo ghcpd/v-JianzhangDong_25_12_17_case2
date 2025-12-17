@@ -1,0 +1,75 @@
+{
+  "summary": {
+    "total_vulnerabilities": 8,
+    "critical": 4,
+    "high": 4,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [10],
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"",
+      "updated": "PAYMENT_TOKEN = os.environ.get('PAYMENT_TOKEN')",
+      "fix_explanation": "Hardcoded secret replaced with environment variable to prevent exposure. Severity: High."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [11],
+      "original": "MAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"",
+      "updated": "MAIL_SERVER_KEY = os.environ.get('MAIL_SERVER_KEY')",
+      "fix_explanation": "Hardcoded secret replaced with environment variable. Severity: High."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [12],
+      "original": "INTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "INTERNAL_AUTH = os.environ.get('INTERNAL_AUTH')",
+      "fix_explanation": "Hardcoded secret replaced with environment variable. Severity: High."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [16],
+      "original": "hashed = hashlib.md5(raw.encode()).hexdigest()",
+      "updated": "salt = os.environ.get('SALT', 'default_salt')\n    raw = username + INTERNAL_AUTH + salt\n    hashed = hashlib.sha256(raw.encode()).hexdigest()",
+      "fix_explanation": "Weak MD5 hash replaced with SHA256 with salt for better security. Severity: High."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [18],
+      "original": "q = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\n    c.execute(q)",
+      "updated": "c.execute(\"SELECT id,name,balance FROM profiles WHERE id = ?\", (uid,))",
+      "fix_explanation": "SQL injection vulnerability fixed by using parameterized queries. Severity: Critical."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [25],
+      "original": "resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})",
+      "updated": "parsed = urlparse(notify_url)\n    if parsed.scheme not in ['http', 'https'] or not parsed.netloc:\n        return \"Invalid URL\"\n    resp = requests.post(notify_url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})",
+      "fix_explanation": "SSRF vulnerability mitigated by validating URL scheme and netloc. Severity: Critical."
+    },
+    {
+      "id": 7,
+      "file": "input.py",
+      "line_numbers": [29],
+      "original": "with open(path) as f:",
+      "updated": "if not path or '..' in path or '/' in path or '\\\\' in path:\n        return {\"error\": \"Invalid path\"}\n    if not os.path.isfile(path):\n        return {\"error\": \"File not found\"}\n    with open(path) as f:",
+      "fix_explanation": "Path traversal vulnerability fixed by validating path input. Severity: Critical."
+    },
+    {
+      "id": 8,
+      "file": "input.py",
+      "line_numbers": [35],
+      "original": "cmd = f\"zip {name}.zip {DB_FILE}\"\n    subprocess.Popen(cmd, shell=True)",
+      "updated": "cmd = ['zip', f'{name}.zip', DB_FILE]\n    subprocess.run(cmd, check=True)",
+      "fix_explanation": "Command injection vulnerability fixed by using subprocess.run with list arguments instead of shell=True. Severity: Critical."
+    }
+  ]
+}
