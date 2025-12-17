@@ -1,0 +1,7 @@
+app:
+  name: TestApp
+  version: 1.0
+  debug: false
+database:
+  path: appdata.db
+  timeout: 30

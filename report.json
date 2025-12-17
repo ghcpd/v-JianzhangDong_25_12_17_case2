@@ -1,0 +1,91 @@
+{
+  "summary": {
+    "total_vulnerabilities": 8,
+    "critical": 3,
+    "high": 3,
+    "medium": 2,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [12, 13, 14],
+      "vulnerability_type": "Hardcoded Secrets/API Keys",
+      "severity": "CRITICAL",
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"\nMAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"\nINTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "PAYMENT_TOKEN = os.getenv(\"PAYMENT_TOKEN\", \"\")\nMAIL_SERVER_KEY = os.getenv(\"MAIL_SERVER_KEY\", \"\")\nINTERNAL_AUTH = os.getenv(\"INTERNAL_AUTH\", \"\")",
+      "fix_explanation": "Hardcoded secrets expose authentication tokens and API keys. Fixed by loading credentials from environment variables instead. This prevents secrets from being committed to version control and allows different secrets per environment."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [26],
+      "vulnerability_type": "SQL Injection",
+      "severity": "CRITICAL",
+      "original": "q = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\nc.execute(q)",
+      "updated": "q = \"SELECT id, name, balance FROM profiles WHERE id = ?\"\nc.execute(q, (uid,))",
+      "fix_explanation": "String formatting with user input directly into SQL queries allows SQL injection attacks. Fixed by using parameterized queries with placeholders (?) which treat user input as data, not code. Added input validation to ensure uid is numeric."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [47],
+      "vulnerability_type": "Command Injection",
+      "severity": "CRITICAL",
+      "original": "cmd = f\"zip {name}.zip {DB_FILE}\"\nsubprocess.Popen(cmd, shell=True)",
+      "updated": "cmd = [\"zip\", f\"{name}.zip\", DB_FILE]\nprocess = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)",
+      "fix_explanation": "Using shell=True with user input in subprocess commands allows command injection. Fixed by passing command as a list and setting shell=False, which prevents shell interpretation. Added input validation using regex to allow only alphanumeric characters, hyphens, and underscores in the name parameter."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [37],
+      "vulnerability_type": "Server-Side Request Forgery (SSRF)",
+      "severity": "HIGH",
+      "original": "url = payload.get(\"notify_url\")\nresp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})",
+      "updated": "try:\n    parsed_url = urlparse(url)\n    if parsed_url.scheme not in [\"http\", \"https\"]:\n        logger.warning(f\"Disallowed URL scheme: {parsed_url.scheme}\")\n        return None\n    resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount}, timeout=5)",
+      "fix_explanation": "User-controlled URLs can be exploited to make requests to internal services. Fixed by validating the URL scheme to only allow http/https, adding timeout to prevent hanging, and implementing proper error handling. Optional: whitelist specific domains."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [42],
+      "vulnerability_type": "Path Traversal / Directory Traversal",
+      "severity": "HIGH",
+      "original": "with open(path) as f:\n    cfg = yaml.safe_load(f)",
+      "updated": "safe_path = Path(ALLOWED_CONFIG_DIR) / path\nresolved_path = safe_path.resolve()\nallowed_base = Path(ALLOWED_CONFIG_DIR).resolve()\nif not str(resolved_path).startswith(str(allowed_base)):\n    logger.warning(f\"Path traversal attempt detected: {path}\")\n    return None",
+      "fix_explanation": "Arbitrary file paths allow reading sensitive files using ../ sequences. Fixed by restricting file access to a specific directory (ALLOWED_CONFIG_DIR) and validating that the resolved path stays within that directory. Uses pathlib for safe path handling."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [61],
+      "vulnerability_type": "Debug Mode Enabled in Production",
+      "severity": "HIGH",
+      "original": "app.run(debug=True)",
+      "updated": "DEBUG_MODE = os.getenv(\"FLASK_DEBUG\", \"False\").lower() == \"true\"\napp.run(debug=DEBUG_MODE, host=\"127.0.0.1\", port=5000)",
+      "fix_explanation": "Debug mode exposes sensitive information and allows code execution. Fixed by loading debug mode from environment variable (defaults to False) and binding to localhost only. This prevents remote debugging and information disclosure."
+    },
+    {
+      "id": 7,
+      "file": "input.py",
+      "line_numbers": [21],
+      "vulnerability_type": "Weak Cryptographic Hashing (MD5)",
+      "severity": "MEDIUM",
+      "original": "hashed = hashlib.md5(raw.encode()).hexdigest()",
+      "updated": "from argon2 import PasswordHasher\nph = PasswordHasher()\nhashed = ph.hash(raw)",
+      "fix_explanation": "MD5 is cryptographically broken and unsuitable for hashing passwords. Fixed by using Argon2, a modern password hashing algorithm that is resistant to GPU and ASIC attacks. Argon2 is the recommended algorithm for password hashing."
+    },
+    {
+      "id": 8,
+      "file": "input.py",
+      "line_numbers": [54, 61, 65, 70, 75],
+      "vulnerability_type": "Missing Input Validation & Error Handling",
+      "severity": "MEDIUM",
+      "original": "@app.route(...)\ndef api_*():\n    # Direct use of request data without validation\n    # No error handling or status code responses",
+      "updated": "Added comprehensive input validation:\n- Type checking for request.json\n- Null/empty parameter checks\n- Format validation (e.g., numeric for uid)\n- Proper error responses with HTTP status codes\n- Structured logging for security events",
+      "fix_explanation": "Missing validation allows invalid data through and makes debugging harder. Fixed by adding type checks, null checks, format validation, and proper error responses with appropriate HTTP status codes (400 for bad requests, 500 for server errors). Added logging to track security-relevant events."
+    }
+  ]
+}

@@ -1,0 +1,431 @@
+2025-12-17 15:26:04,033 - INFO - 
+============================================================
+2025-12-17 15:26:04,034 - INFO - AUTOMATIC SECURITY TEST EXECUTION
+2025-12-17 15:26:04,034 - INFO - ============================================================
+2025-12-17 15:26:04,034 - INFO - Start Time: 2025-12-17T15:26:04.034501
+2025-12-17 15:26:04,131 - INFO - Detected OS: Windows
+2025-12-17 15:26:04,131 - INFO - Environment Detected: windows
+2025-12-17 15:26:04,131 - INFO - 
+Validating environment...
+2025-12-17 15:26:04,910 - INFO - 
+Setting up environment variables...
+2025-12-17 15:26:04,910 - INFO -   FLASK_ENV = testing
+2025-12-17 15:26:04,911 - INFO -   FLASK_DEBUG = False
+2025-12-17 15:26:04,911 - INFO -   PAYMENT_TOKEN = test_token_12345
+2025-12-17 15:26:04,911 - INFO -   MAIL_SERVER_KEY = test_mail_key_67890
+2025-12-17 15:26:04,911 - INFO -   INTERNAL_AUTH = test_auth_abcde
+2025-12-17 15:26:04,912 - INFO - Creating test config file: configs\test_config.yaml
+2025-12-17 15:26:04,913 - INFO - 
+============================================================
+2025-12-17 15:26:04,913 - INFO - PHASE 1: Testing Vulnerable Version (input_backup.py)
+2025-12-17 15:26:04,914 - INFO - ============================================================
+2025-12-17 15:26:04,914 - INFO - 
+============================================================
+2025-12-17 15:26:04,914 - INFO - PHASE 2: Testing Secure Version (input.py)
+2025-12-17 15:26:04,914 - INFO - ============================================================
+2025-12-17 15:26:04,914 - INFO - 
+============================================================
+2025-12-17 15:26:04,914 - INFO - Testing: input.py
+2025-12-17 15:26:04,915 - INFO - Environment: windows
+2025-12-17 15:26:04,915 - INFO - Start Time: 2025-12-17T15:26:04.915276
+2025-12-17 15:26:04,915 - INFO - ============================================================
+2025-12-17 15:26:04,960 - INFO - STDOUT:
+2025-12-17 15:26:04,961 - INFO - ==========================================
+Running Security Tests (Windows)
+==========================================
+
+[*] Test log will be saved to: logs\test_run.log
+
+
+2025-12-17 15:26:04,961 - WARNING - STDERR:
+2025-12-17 15:26:04,961 - WARNING - 此时不应有 and。
+
+2025-12-17 15:26:04,961 - INFO - Exit Code: 255
+2025-12-17 15:26:04,961 - INFO - End Time: 2025-12-17T15:26:04.961885
+2025-12-17 15:26:04,962 - INFO - Status: FAIL
+2025-12-17 15:26:04,962 - INFO - 
+============================================================
+2025-12-17 15:26:04,962 - INFO - FINAL TEST SUMMARY
+2025-12-17 15:26:04,963 - INFO - ============================================================
+2025-12-17 15:26:04,965 - INFO - 
+============================================================
+2025-12-17 15:26:04,966 - INFO - End Time: 2025-12-17T15:26:04.966893
+2025-12-17 15:26:04,967 - INFO - Final Status: TEST FAILED
+2025-12-17 15:26:04,967 - INFO - ============================================================
+
+TEST FAILED
+2025-12-17 15:29:22,743 - INFO - 
+============================================================
+2025-12-17 15:29:22,743 - INFO - AUTOMATIC SECURITY TEST EXECUTION
+2025-12-17 15:29:22,743 - INFO - ============================================================
+2025-12-17 15:29:22,743 - INFO - Start Time: 2025-12-17T15:29:22.743807
+2025-12-17 15:29:22,792 - INFO - Detected OS: Windows
+2025-12-17 15:29:22,793 - INFO - Environment Detected: windows
+2025-12-17 15:29:22,793 - INFO - 
+Validating environment...
+2025-12-17 15:29:23,177 - INFO - 
+Setting up environment variables...
+2025-12-17 15:29:23,177 - INFO -   FLASK_ENV = testing
+2025-12-17 15:29:23,177 - INFO -   FLASK_DEBUG = False
+2025-12-17 15:29:23,178 - INFO -   PAYMENT_TOKEN = test_token_12345
+2025-12-17 15:29:23,178 - INFO -   MAIL_SERVER_KEY = test_mail_key_67890
+2025-12-17 15:29:23,178 - INFO -   INTERNAL_AUTH = test_auth_abcde
+2025-12-17 15:29:23,179 - INFO - 
+============================================================
+2025-12-17 15:29:23,179 - INFO - PHASE 1: Testing Vulnerable Version (input_backup.py)
+2025-12-17 15:29:23,179 - INFO - ============================================================
+2025-12-17 15:29:23,179 - INFO - 
+============================================================
+2025-12-17 15:29:23,180 - INFO - PHASE 2: Testing Secure Version (input.py)
+2025-12-17 15:29:23,180 - INFO - ============================================================
+2025-12-17 15:29:23,180 - INFO - 
+============================================================
+2025-12-17 15:29:23,181 - INFO - Testing: input.py
+2025-12-17 15:29:23,181 - INFO - Environment: windows
+2025-12-17 15:29:23,181 - INFO - Start Time: 2025-12-17T15:29:23.181409
+2025-12-17 15:29:23,181 - INFO - ============================================================
+2025-12-17 15:29:23,239 - INFO - STDOUT:
+2025-12-17 15:29:23,239 - INFO - ==========================================
+Running Security Tests (Windows)
+==========================================
+
+[*] Test log will be saved to: logs\test_run.log
+
+
+2025-12-17 15:29:23,239 - WARNING - STDERR:
+2025-12-17 15:29:23,239 - WARNING - 此时不应有 and。
+
+2025-12-17 15:29:23,239 - INFO - Exit Code: 255
+2025-12-17 15:29:23,240 - INFO - End Time: 2025-12-17T15:29:23.240005
+2025-12-17 15:29:23,240 - INFO - Status: FAIL
+2025-12-17 15:29:23,240 - INFO - 
+============================================================
+2025-12-17 15:29:23,240 - INFO - FINAL TEST SUMMARY
+2025-12-17 15:29:23,240 - INFO - ============================================================
+2025-12-17 15:29:23,242 - INFO - 
+============================================================
+2025-12-17 15:29:23,243 - INFO - End Time: 2025-12-17T15:29:23.242993
+2025-12-17 15:29:23,243 - INFO - Final Status: TEST FAILED
+2025-12-17 15:29:23,243 - INFO - ============================================================
+
+TEST FAILED
+2025-12-17 15:29:45,593 - INFO - 
+============================================================
+2025-12-17 15:29:45,593 - INFO - AUTOMATIC SECURITY TEST EXECUTION
+2025-12-17 15:29:45,593 - INFO - ============================================================
+2025-12-17 15:29:45,594 - INFO - Start Time: 2025-12-17T15:29:45.594114
+2025-12-17 15:29:45,650 - INFO - Detected OS: Windows
+2025-12-17 15:29:45,651 - INFO - Environment Detected: windows
+2025-12-17 15:29:45,651 - INFO - 
+Validating environment...
+2025-12-17 15:29:46,015 - INFO - 
+Setting up environment variables...
+2025-12-17 15:29:46,015 - INFO -   FLASK_ENV = testing
+2025-12-17 15:29:46,015 - INFO -   FLASK_DEBUG = False
+2025-12-17 15:29:46,015 - INFO -   PAYMENT_TOKEN = test_token_12345
+2025-12-17 15:29:46,015 - INFO -   MAIL_SERVER_KEY = test_mail_key_67890
+2025-12-17 15:29:46,016 - INFO -   INTERNAL_AUTH = test_auth_abcde
+2025-12-17 15:29:46,016 - INFO - 
+============================================================
+2025-12-17 15:29:46,016 - INFO - PHASE 1: Testing Vulnerable Version (input_backup.py)
+2025-12-17 15:29:46,016 - INFO - ============================================================
+2025-12-17 15:29:46,016 - INFO - 
+============================================================
+2025-12-17 15:29:46,017 - INFO - PHASE 2: Testing Secure Version (input.py)
+2025-12-17 15:29:46,017 - INFO - ============================================================
+2025-12-17 15:29:46,017 - INFO - 
+============================================================
+2025-12-17 15:29:46,017 - INFO - Testing: input.py
+2025-12-17 15:29:46,017 - INFO - Environment: windows
+2025-12-17 15:29:46,017 - INFO - Start Time: 2025-12-17T15:29:46.017538
+2025-12-17 15:29:46,017 - INFO - ============================================================
+2025-12-17 15:29:46,561 - INFO - STDOUT:
+2025-12-17 15:29:46,561 - INFO - 
+==================================================
+FLASK SECURITY TEST SUITE
+==================================================
+
+[TEST] SQL Injection Prevention
+--------------------------------------------------
+[PASS] SQL injection attempt blocked
+
+[TEST] Command Injection Prevention
+--------------------------------------------------
+[PASS] Command injection attempt blocked
+
+[TEST] Weak Hashing Prevention
+--------------------------------------------------
+[FAIL] auth_user returned None
+
+[TEST] Hardcoded Secrets Prevention
+--------------------------------------------------
+[PASS] No hardcoded secrets found
+
+[TEST] Debug Mode Configuration
+--------------------------------------------------
+[PASS] Debug mode controlled by environment variable
+
+==================================================
+TEST SUMMARY
+==================================================
+PASS: SQL Injection Prevention
+PASS: Command Injection Prevention
+FAIL: Weak Hashing Prevention
+PASS: Hardcoded Secrets Prevention
+PASS: Debug Mode Configuration
+
+Total: 4/5 tests passed
+
+1 TEST(S) FAILED
+
+2025-12-17 15:29:46,562 - WARNING - STDERR:
+2025-12-17 15:29:46,562 - WARNING - WARNING:input:Invalid uid format: 1' OR '1'='1
+WARNING:input:Invalid export name: ; rm -rf /
+ERROR:input:Argon2 not available
+
+2025-12-17 15:29:46,562 - INFO - Exit Code: 1
+2025-12-17 15:29:46,562 - INFO - End Time: 2025-12-17T15:29:46.562722
+2025-12-17 15:29:46,562 - INFO - Status: FAIL
+2025-12-17 15:29:46,563 - INFO - 
+============================================================
+2025-12-17 15:29:46,563 - INFO - FINAL TEST SUMMARY
+2025-12-17 15:29:46,563 - INFO - ============================================================
+2025-12-17 15:29:46,565 - INFO - 
+============================================================
+2025-12-17 15:29:46,567 - INFO - End Time: 2025-12-17T15:29:46.567025
+2025-12-17 15:29:46,567 - INFO - Final Status: TEST FAILED
+2025-12-17 15:29:46,567 - INFO - ============================================================
+
+TEST FAILED
+2025-12-17 15:30:05,067 - INFO - 
+============================================================
+2025-12-17 15:30:05,067 - INFO - AUTOMATIC SECURITY TEST EXECUTION
+2025-12-17 15:30:05,067 - INFO - ============================================================
+2025-12-17 15:30:05,067 - INFO - Start Time: 2025-12-17T15:30:05.067891
+2025-12-17 15:30:05,118 - INFO - Detected OS: Windows
+2025-12-17 15:30:05,118 - INFO - Environment Detected: windows
+2025-12-17 15:30:05,119 - INFO - 
+Validating environment...
+2025-12-17 15:30:05,486 - INFO - 
+Setting up environment variables...
+2025-12-17 15:30:05,486 - INFO -   FLASK_ENV = testing
+2025-12-17 15:30:05,486 - INFO -   FLASK_DEBUG = False
+2025-12-17 15:30:05,486 - INFO -   PAYMENT_TOKEN = test_token_12345
+2025-12-17 15:30:05,486 - INFO -   MAIL_SERVER_KEY = test_mail_key_67890
+2025-12-17 15:30:05,487 - INFO -   INTERNAL_AUTH = test_auth_abcde
+2025-12-17 15:30:05,487 - INFO - 
+============================================================
+2025-12-17 15:30:05,487 - INFO - PHASE 1: Testing Vulnerable Version (input_backup.py)
+2025-12-17 15:30:05,487 - INFO - ============================================================
+2025-12-17 15:30:05,487 - INFO - 
+============================================================
+2025-12-17 15:30:05,487 - INFO - PHASE 2: Testing Secure Version (input.py)
+2025-12-17 15:30:05,488 - INFO - ============================================================
+2025-12-17 15:30:05,488 - INFO - 
+============================================================
+2025-12-17 15:30:05,488 - INFO - Testing: input.py
+2025-12-17 15:30:05,488 - INFO - Environment: windows
+2025-12-17 15:30:05,488 - INFO - Start Time: 2025-12-17T15:30:05.488513
+2025-12-17 15:30:05,488 - INFO - ============================================================
+2025-12-17 15:30:06,161 - INFO - STDOUT:
+2025-12-17 15:30:06,161 - INFO - 
+==================================================
+FLASK SECURITY TEST SUITE
+==================================================
+
+[TEST] SQL Injection Prevention
+--------------------------------------------------
+[PASS] SQL injection attempt blocked
+
+[TEST] Command Injection Prevention
+--------------------------------------------------
+[PASS] Command injection attempt blocked
+
+[TEST] Weak Hashing Prevention
+--------------------------------------------------
+[PASS] Using Argon2 hashing (secure)
+
+[TEST] Hardcoded Secrets Prevention
+--------------------------------------------------
+[PASS] No hardcoded secrets found
+
+[TEST] Debug Mode Configuration
+--------------------------------------------------
+[PASS] Debug mode controlled by environment variable
+
+==================================================
+TEST SUMMARY
+==================================================
+PASS: SQL Injection Prevention
+PASS: Command Injection Prevention
+PASS: Weak Hashing Prevention
+PASS: Hardcoded Secrets Prevention
+PASS: Debug Mode Configuration
+
+Total: 5/5 tests passed
+
+ALL TESTS PASSED
+
+2025-12-17 15:30:06,162 - WARNING - STDERR:
+2025-12-17 15:30:06,162 - WARNING - WARNING:input:Invalid uid format: 1' OR '1'='1
+WARNING:input:Invalid export name: ; rm -rf /
+
+2025-12-17 15:30:06,163 - INFO - Exit Code: 0
+2025-12-17 15:30:06,163 - INFO - End Time: 2025-12-17T15:30:06.163230
+2025-12-17 15:30:06,163 - INFO - Status: PASS
+2025-12-17 15:30:06,163 - INFO - 
+============================================================
+2025-12-17 15:30:06,164 - INFO - FINAL TEST SUMMARY
+2025-12-17 15:30:06,164 - INFO - ============================================================
+2025-12-17 15:30:06,166 - INFO - 
+============================================================
+2025-12-17 15:30:06,167 - INFO - End Time: 2025-12-17T15:30:06.167670
+2025-12-17 15:30:06,167 - INFO - Final Status: TEST PASSED
+2025-12-17 15:30:06,167 - INFO - ============================================================
+
+TEST PASSED
+2025-12-17 15:32:16,317 - INFO - 
+============================================================
+2025-12-17 15:32:16,318 - INFO - AUTOMATIC SECURITY TEST EXECUTION
+2025-12-17 15:32:16,318 - INFO - ============================================================
+2025-12-17 15:32:16,318 - INFO - Start Time: 2025-12-17T15:32:16.318698
+2025-12-17 15:32:16,383 - INFO - Detected OS: Windows
+2025-12-17 15:32:16,383 - INFO - Environment Detected: windows
+2025-12-17 15:32:16,384 - INFO - 
+Validating environment...
+2025-12-17 15:32:16,762 - INFO - 
+Setting up environment variables...
+2025-12-17 15:32:16,762 - INFO -   FLASK_ENV = testing
+2025-12-17 15:32:16,762 - INFO -   FLASK_DEBUG = False
+2025-12-17 15:32:16,762 - INFO -   PAYMENT_TOKEN = test_token_12345
+2025-12-17 15:32:16,762 - INFO -   MAIL_SERVER_KEY = test_mail_key_67890
+2025-12-17 15:32:16,763 - INFO -   INTERNAL_AUTH = test_auth_abcde
+2025-12-17 15:32:16,763 - INFO - 
+============================================================
+2025-12-17 15:32:16,763 - INFO - PHASE 1: Testing Vulnerable Version (input_backup.py)
+2025-12-17 15:32:16,764 - INFO - ============================================================
+2025-12-17 15:32:16,764 - INFO - 
+============================================================
+2025-12-17 15:32:16,764 - INFO - Testing VULNERABLE Version: input_backup.py
+2025-12-17 15:32:16,764 - INFO - (Expecting vulnerabilities to be present)
+2025-12-17 15:32:16,764 - INFO - Environment: windows
+2025-12-17 15:32:16,764 - INFO - Start Time: 2025-12-17T15:32:16.764936
+2025-12-17 15:32:16,765 - INFO - ============================================================
+2025-12-17 15:32:17,383 - INFO - STDOUT:
+2025-12-17 15:32:17,383 - INFO - 
+==================================================
+VULNERABILITY DETECTION TEST SUITE
+Testing: input_backup.py (Vulnerable Version)
+==================================================
+
+[TEST] SQL Injection Vulnerability (should be present)
+--------------------------------------------------
+[PASS] Exception raised (vulnerability confirmed): no such table: profiles
+
+[TEST] Command Injection Vulnerability (should be present)
+--------------------------------------------------
+[PASS] Command injection vulnerability confirmed (as expected)
+
+[TEST] Hardcoded Secrets (should be present)
+--------------------------------------------------
+[PASS] Hardcoded secrets confirmed (as expected)
+
+[TEST] Weak Hashing (MD5) (should be present)
+--------------------------------------------------
+[PASS] MD5 hashing confirmed (vulnerable - as expected)
+
+[TEST] Debug Mode Hardcoded (should be present)
+--------------------------------------------------
+[PASS] Debug mode hardcoded to True (vulnerable - as expected)
+
+==================================================
+TEST SUMMARY
+==================================================
+PASS: SQL Injection Vulnerability
+PASS: Command Injection Vulnerability
+PASS: Hardcoded Secrets
+PASS: Weak Hashing (MD5)
+PASS: Debug Mode Hardcoded
+
+Total: 5/5 vulnerabilities detected
+
+ALL VULNERABILITIES DETECTED (as expected)
+input_backup.py is confirmed to be vulnerable
+
+2025-12-17 15:32:17,384 - WARNING - STDERR:
+2025-12-17 15:32:17,384 - WARNING - 'zip' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+
+2025-12-17 15:32:17,384 - INFO - Exit Code: 0
+2025-12-17 15:32:17,384 - INFO - End Time: 2025-12-17T15:32:17.384884
+2025-12-17 15:32:17,385 - INFO - Status: PASS
+2025-12-17 15:32:17,385 - INFO - 
+============================================================
+2025-12-17 15:32:17,385 - INFO - PHASE 2: Testing Secure Version (input.py)
+2025-12-17 15:32:17,385 - INFO - ============================================================
+2025-12-17 15:32:17,385 - INFO - 
+============================================================
+2025-12-17 15:32:17,385 - INFO - Testing SECURE Version: input.py
+2025-12-17 15:32:17,386 - INFO - (Expecting vulnerabilities to be fixed)
+2025-12-17 15:32:17,386 - INFO - Environment: windows
+2025-12-17 15:32:17,386 - INFO - Start Time: 2025-12-17T15:32:17.386206
+2025-12-17 15:32:17,386 - INFO - ============================================================
+2025-12-17 15:32:18,070 - INFO - STDOUT:
+2025-12-17 15:32:18,071 - INFO - 
+==================================================
+FLASK SECURITY TEST SUITE
+==================================================
+
+[TEST] SQL Injection Prevention
+--------------------------------------------------
+[PASS] SQL injection attempt blocked
+
+[TEST] Command Injection Prevention
+--------------------------------------------------
+[PASS] Command injection attempt blocked
+
+[TEST] Weak Hashing Prevention
+--------------------------------------------------
+[PASS] Using Argon2 hashing (secure)
+
+[TEST] Hardcoded Secrets Prevention
+--------------------------------------------------
+[PASS] No hardcoded secrets found
+
+[TEST] Debug Mode Configuration
+--------------------------------------------------
+[PASS] Debug mode controlled by environment variable
+
+==================================================
+TEST SUMMARY
+==================================================
+PASS: SQL Injection Prevention
+PASS: Command Injection Prevention
+PASS: Weak Hashing Prevention
+PASS: Hardcoded Secrets Prevention
+PASS: Debug Mode Configuration
+
+Total: 5/5 tests passed
+
+ALL TESTS PASSED
+
+2025-12-17 15:32:18,071 - WARNING - STDERR:
+2025-12-17 15:32:18,071 - WARNING - WARNING:input:Invalid uid format: 1' OR '1'='1
+WARNING:input:Invalid export name: ; rm -rf /
+
+2025-12-17 15:32:18,072 - INFO - Exit Code: 0
+2025-12-17 15:32:18,072 - INFO - End Time: 2025-12-17T15:32:18.072405
+2025-12-17 15:32:18,072 - INFO - Status: PASS
+2025-12-17 15:32:18,072 - INFO - 
+============================================================
+2025-12-17 15:32:18,073 - INFO - FINAL TEST SUMMARY
+2025-12-17 15:32:18,073 - INFO - ============================================================
+2025-12-17 15:32:18,073 - INFO - Vulnerable Version (input_backup.py): VULNERABILITIES DETECTED (expected)
+2025-12-17 15:32:18,073 - INFO - Secure Version (input.py): SECURE (expected)
+2025-12-17 15:32:18,073 - INFO - 
+============================================================
+2025-12-17 15:32:18,074 - INFO - End Time: 2025-12-17T15:32:18.074967
+2025-12-17 15:32:18,075 - INFO - Final Status: TEST PASSED
+2025-12-17 15:32:18,075 - INFO - ============================================================
+
+TEST PASSED
