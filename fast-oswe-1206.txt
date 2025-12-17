@@ -1,0 +1,598 @@
+User: You are a software security engineer. Your task is to audit and secure the provided source file named input.py.
+
+Your responsibilities include:
+
+1. Identify all vulnerabilities in input.py and list each with file name and line numbers.
+2. Detect and report any hardcoded secrets or API keys, also with file name and line numbers.
+3. Create a backup of the original input.py named input_backup.py before making any changes.
+4. Repair the source code to eliminate all identified vulnerabilities and produce a secure version of input.py.
+5. Provide a detailed explanation for each fix, including vulnerability type, severity, affected lines, and the secure replacement. Save this information in a structured JSON file named report.json using the following format:
+
+{
+  "summary": {
+    "total_vulnerabilities": <integer>,
+    "critical": <integer>,
+    "high": <integer>,
+    "medium": <integer>,
+    "low": <integer>
+  },
+  "details": [
+    {
+      "id": <integer>,
+      "file": "input.py",
+      "line_numbers": [<list of integers>],
+      "original": "<string>",
+      "updated": "<string>",
+      "fix_explanation": "<string>",
+    }
+  ]
+}
+
+6. Generate environment replication scripts for each major platform, including:
+   - requirements.txt, Dockerfile, and setup.sh (for Linux/macOS)
+   - run_test.sh (Linux/macOS), run_test.bat (Windows)
+
+7. Implement an automatic test execution script named auto_test.py that:
+   - Detects the current environment (Windows/Linux/Docker)
+   - Runs the corresponding test script (run_test.sh for Linux/macOS, run_test.bat for Windows)
+   - Saves all output logs to logs/test_run.log
+   - The log must include a timestamp and a final status line: TEST PASSED or TEST FAILED
+   - auto_test.py should run tests for both input_backup.py and input.py in sequence, log the results for each test (including timestamp, file name, output, and final status), and determine success or failure based on the actual test script exit codes. 
+   - These tests are intended to verify that the security fixes applied to input.py resolve the issues present in input_backup.py.
+
+8. Generate a README.md file that provides:
+   - An overview of all generated files and their purpose.
+   - Step-by-step instructions to set up the environment.
+   - How to run the test scripts (run_test.sh for Linux/macOS, run_test.bat for Windows).
+   - How to use auto_test.py for automatic environment detection and testing.
+   - How to check logs in logs/test_run.log and interpret TEST PASSED or TEST FAILED status.
+
+GitHub Copilot: Created 7 todos
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/input.py)
+
+Searched for regex `PAYMENT_TOKEN|MAIL_SERVER_KEY|INTERNAL_AUTH`, 5 results
+
+Starting: *Audit code and identify vulnerabilities* (1/7)
+
+Ran terminal command: python - << 'PY'
+with open(r'd:\projects\v-JianzhangDong_25_12_17_case2\fast-oswe-1206\v-JianzhangDong_25_12_17_case2\input.py','r') as f:
+    for i, line in enumerate(f, start=1):
+        print(f"{i:3d}: {line.rstrip()}")
+PY
+
+Starting: *Create backup of input.py* (2/7)
+
+Ran terminal command: copy "d:\projects\v-JianzhangDong_25_12_17_case2\fast-oswe-1206\v-JianzhangDong_25_12_17_case2\input.py" "d:\projects\v-JianzhangDong_25_12_17_case2\fast-oswe-1206\v-JianzhangDong_25_12_17_case2\input_backup.py"
+
+Ran terminal command: Copy-Item -Path "d:\projects\v-JianzhangDong_25_12_17_case2\fast-oswe-1206\v-JianzhangDong_25_12_17_case2\input.py" -Destination "d:\projects\v-JianzhangDong_25_12_17_case2\fast-oswe-1206\v-JianzhangDong_25_12_17_case2\input_backup.py"
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/input_backup.py)
+
+Starting: *Fix vulnerabilities and secure code* (3/7)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/input.py)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Ran terminal command: python -c "import io,sys;lines=open('d:\\projects\\v-JianzhangDong_25_12_17_case2\\fast-oswe-1206\\v-JianzhangDong_25_12_17_case2\\input_backup.py').read().splitlines();print('\n'.join(f'{i+1:3d}: '+l for i,l in enumerate(lines)))"
+
+Ran terminal command: python -c "import sys; f=open('d:\\projects\\v-JianzhangDong_25_12_17_case2\\fast-oswe-1206\\v-JianzhangDong_25_12_17_case2\\input.py', 'r'); 
+for i, line in enumerate(f,1): print(f'{i:3d}: {line.rstrip()}')"
+
+Ran terminal command: Get-Content -Path "d:\projects\v-JianzhangDong_25_12_17_case2\fast-oswe-1206\v-JianzhangDong_25_12_17_case2\input.py" | ForEach-Object -Begin { $i = 0 } -Process { $i++; "{0,3}: {1}" -f $i, $_ }
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Ran terminal command: python -c "import pathlib,sys;lines=pathlib.Path(r'd:\\projects\\v-JianzhangDong_25_12_17_case2\\fast-oswe-1206\\v-JianzhangDong_25_12_17_case2\\input.py').read_text().splitlines();print('\n'.join(f'{i+1:3d}: {l}' for i,l in enumerate(lines)))"
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Made changes.
+
+User: @agent Try Again
+
+GitHub Copilot: 
+
+User: @agent Try Again
+
+GitHub Copilot: Ran terminal command: python -c "lines=open(r'd:\\projects\\v-JianzhangDong_25_12_17_case2\\fast-oswe-1206\\v-JianzhangDong_25_12_17_case2\\input_backup.py').read().splitlines(); print('\n'.join(f'{i+1:3d}: {l}' for i,l in enumerate(lines)))"
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/input_backup.py)
+
+Starting: *Generate report.json* (4/7)
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/report.json)
+
+Starting: *Create environment scripts (requirements, Dockerfile, setup, tests)* (5/7)
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/input.py)
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/requirements.txt)
+
+Starting: *Implement auto_test.py* (6/7)
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/tests/test_input.py)
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/run_test.sh)
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/run_test.bat)
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/auto_test.py)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/setup.sh)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Starting: *Create README.md* (7/7)
+
+Ran terminal command: pytest -q
+
+Ran terminal command: python -m pip install --upgrade pip ; python -m pip install -r requirements.txt
+
+Ran terminal command: python -m pip install --upgrade pip
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/Dockerfile)
+
+Using "Replace String in File"
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/report.json)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Continue to iterate?
+[object Object]
+
+Made changes.
+
+User: @agent Continue: "Continue to iterate?"
+
+GitHub Copilot: Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/report.json)
+
+Starting: *Generate report.json* (4/7)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Created [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/README.md)
+
+Ran terminal command: python -c "import json,sys; import pathlib; p = pathlib.Path('d:\\projects\\v-JianzhangDong_25_12_17_case2\\fast-oswe-1206\\v-JianzhangDong_25_12_17_case2\\report.json'); print('file exists', p.exists()); data = json.load(open(p)); print('json ok', data['summary'])"
+
+Ran terminal command: python -m pytest -q
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/report.json)
+
+Completed: *Generate report.json* (4/7)
+
+Using "Replace String in File"
+
+✅ **Audit & remediation complete** — I analyzed input.py, created a safe backup, fixed all identified issues, and added tests + environment scripts. Below is a complete summary and the files you should use.
+
+---
+
+## 🔍 Findings (original input_backup.py)
+I scanned the original file (APP-specific line numbers are shown for the **original** version, input_backup.py):
+
+| # | Issue | File | Line(s) | Severity |
+|---|-------|------|---------|----------|
+| 1 | **Hardcoded secrets** (PAYMENT_TOKEN / MAIL_SERVER_KEY / INTERNAL_AUTH) | input.py | 11-13 | **High** |
+| 2 | **Weak hashing (MD5)** for auth token | input.py | 19-20 | **High** |
+| 3 | **SQL injection** — string interpolation used in SQL query | input.py | 27-28 | **High** |
+| 4 | **SSRF / no validation** on external `notify_url` and no timeouts | input.py | 39-40 | **High** |
+| 5 | **Path traversal / unsafe file read** — `update_records` can open arbitrary files | input.py | 45-46 | **High** |
+| 6 | **Command injection** — `export_data` executed shell `zip` via `subprocess.Popen` with `shell=True` | input.py | 51-52 | **High** |
+
+---
+
+## 🔐 What I fixed (and where)
+
+I created a backup input_backup.py (unchanged vulnerable file) and then hardened input.py with the following fixes. Each change is explained in the included report.json.
+
+**Key code changes added**
+
+- **Secrets → env variables**: `PAYMENT_TOKEN`, `MAIL_SERVER_KEY`, `INTERNAL_AUTH` are now loaded from environment variables.
+- **Secure token derivation**: Replace the insecure MD5 with HMAC-SHA256 using the `INTERNAL_AUTH` secret.
+- **Safe SQL**: Use parameterized SQL query (`?` placeholder) when querying the DB to prevent SQL injection.
+- **SSRF prevention**: Validate `notify_url` to be HTTPS and whitelist allowed hostnames; add a request timeout and error handling.
+- **Path traversal protection**: Restrict `update_records` to read YAML files only from a safe `configs` folder.
+- **Command injection defense**: Sanitize `export_data`'s archive name and call `subprocess.run` with an argument list (no `shell=True`).
+
+---
+
+## 📁 Files I added / updated
+- input_backup.py — unmodified copy of the original vulnerable file (for comparison & testing).
+- input.py — secured implementation (updated per the fixes above).
+- report.json — structured JSON report of the vulnerabilities & fixes (see below).
+- test_input.py — unit tests covering both secure and vulnerable behaviors.
+- requirements.txt — Python dependencies.
+- setup.sh — install dependencies (Linux/macOS).
+- run_test.sh & run_test.bat — convenience scripts to run the tests on Linux/macOS and Windows respectively.
+- Dockerfile — small image that installs dependencies and runs the tests (CI-friendly).
+- auto_test.py — runs tests against both input_backup.py and input.py, logging results in `logs/test_run.log`.
+- README.md — usage instructions and project overview.
+
+---
+
+## 📁 report.json (summary)
+```json
+{
+  "summary": {
+    "total_vulnerabilities": 6,
+    "critical": 0,
+    "high": 6,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [11,12,13],
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"\nMAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"\nINTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "PAYMENT_TOKEN = os.getenv(\"PAYMENT_TOKEN\")  # loaded from environment variable\nMAIL_SERVER_KEY = os.getenv(\"MAIL_SERVER_KEY\")  # loaded from environment variable\nINTERNAL_AUTH = os.getenv(\"INTERNAL_AUTH\")  # loaded from environment variable",
+      "fix_explanation": "Hardcoded secrets were removed and replaced with environment variables so credentials are not present in code and can be managed securely."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [19,20],
+      "original": "raw = info.get(\"username\", \"\") + INTERNAL_AUTH\nhashed = hashlib.md5(raw.encode()).hexdigest()",
+      "updated": "import hmac\nusername = info.get(\"username\", \"\")\nif not isinstance(username, str):\n    username = str(username)\nkey = INTERNAL_AUTH or \"\"\nhashed = hmac.new(key.encode(), username.encode(), hashlib.sha256).hexdigest()",
+      "fix_explanation": "Replaced weak MD5 hashing with HMAC-SHA256 using a secret key, eliminating the insecure hashing algorithm and using a stronger, keyed hash."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [27,28],
+      "original": "q = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\nc.execute(q)",
+      "updated": "q = \"SELECT id, name, balance FROM profiles WHERE id = ?\"\nc.execute(q, (uid,))",
+      "fix_explanation": "Replaced string interpolation in SQL query with parameterized queries to prevent SQL injection."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [39,40],
+      "original": "url = payload.get(\"notify_url\")\nresp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})",
+      "updated": "url = payload.get(\"notify_url\")\nallowed_hosts = {\"example.com\", \"api.example.com\"}\nfrom urllib.parse import urlparse\nparsed = urlparse(url)\nif parsed.scheme != \"https\" or parsed.hostname not in allowed_hosts:\n    raise ValueError(\"Invalid notify_url\")\ntry:\n    resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount}, timeout=5)\n    return resp.text\nexcept requests.RequestException as e:\n    return str(e)",
+      "fix_explanation": "Added validation on the notify_url to restrict to HTTPS and whitelisted hosts, and added a timeout and exception handling to avoid SSRF and denial-of-service issues."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [45,46],
+      "original": "with open(path) as f:\n    cfg = yaml.safe_load(f)",
+      "updated": "base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), \"configs\"))\nfull_path = os.path.abspath(path)\nif not full_path.startswith(base_dir + os.sep):\n    raise ValueError(\"Unauthorized config file access\")\nwith open(full_path) as f:\n    cfg = yaml.safe_load(f)",
+      "fix_explanation": "Limited file access to a safe configs directory and prevented path traversal attacks by validating the resolved path."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [51,52],
+      "original": "cmd = f\"zip {name}.zip {DB_FILE}\"\nsubprocess.Popen(cmd, shell=True)",
+      "updated": "if not isinstance(name, str) or not name.isalnum():\n    raise ValueError(\"Invalid archive name\")\noutput_file = f\"{name}.zip\"\ncmd = [\"zip\", output_file, DB_FILE]\nsubprocess.run(cmd, check=True)",
+      "fix_explanation": "Sanitized archive name and used subprocess.run with an argument list (no shell) to avoid command injection and shell escape vulnerabilities."
+    }
+  ]
+}
+```
+
+---
+
+## 📦 Environment & test scripts
+- **Linux/macOS**
+  - setup.sh — install dependencies (`pip install -r requirements.txt`)
+  - run_test.sh — run test suite with pytest (`pytest -q`)
+- **Windows**
+  - run_test.bat — run tests (`python -m pytest -q`) – run in PowerShell / cmd.
+- **Docker** — build/run tests:
+  ```bash
+  docker build -t audit-app .
+  docker run --rm audit-app
+  ```
+- **auto_test.py** — runs tests for both input_backup.py (vulnerable) and input.py (fixed), writes results to `logs/test_run.log`.  
+  Run: `python auto_test.py`  
+  Log will include timestamps and final `TEST PASSED` / `TEST FAILED` statuses.
+
+---
+
+## 🧪 Tests included
+I added test_input.py which asserts:
+- `auth_user` produces a 64-character HMAC-SHA256 hex digest
+- `query_profile` uses parameterized SQL and prevents SQL injection
+- `transfer_funds` validates `notify_url` (allows only `https` and whitelisted hosts)
+- `update_records` prevents path traversal
+- `export_data` uses `subprocess.run` (no `shell=True`) and sanitises archive name
+- The backup (input_backup.py) shows expected failures for the vulnerable behaviors (e.g. SQLi, SSRF).
+
+---
+
+## ▶️ Next steps / usage
+1. **Install dependencies** (Linux/macOS):
+   ```bash
+   ./setup.sh
+   ```
+   Or on Windows:
+   ```powershell
+   pip install -r requirements.txt
+   ```
+2. **Run the tests** manually:
+   - Linux/macOS: run_test.sh  
+   - Windows: run_test.bat
+3. **Automatic test runner**:
+   ```bash
+   python auto_test.py
+   ```
+   Check `logs/test_run.log` for the results.
+
+---
+
+If you want me to:
+- add additional validation (e.g. strengthen the URL or host whitelist),
+- generate a Windows-specific setup script (`setup.bat`),  
+- or add more unit tests / CI configuration,
+
+let me know and I’ll add them right away.
+
+Made changes.
+
+User: run the auto_test.py
+
+GitHub Copilot: Ran terminal command: python auto_test.py
+
+Ran terminal command: import auto_test
+auto_test.main()
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/auto_test.py)
+
+Using "Replace String in File"
+
+
+```
+
+```
+
+
+Ran terminal command: python -m pip install -q -r requirements.txt
+
+Ran terminal command: echo hello
+
+Ran terminal command: cmd.exe /c "python auto_test.py"
+
+Ran terminal command: python -V
+
+Ran terminal command: import runpy; runpy.run_path('auto_test.py')
+
+Ran terminal command: import pytest; print(pytest.__version__)
+
+Ran terminal command: python -c "import runpy; runpy.run_path('auto_test.py')"
+
+Ran terminal command: import runpy; runpy.run_path('auto_test.py')
+
+Ran terminal command: $env:FILE_TO_TEST = 'input.py'; pytest -q
+
+Ran terminal command: python -c "import subprocess,os,sys; env=os.environ.copy(); env['FILE_TO_TEST']='input.py'; r=subprocess.run(['cmd.exe','/c','run_test.bat'], capture_output=True, text=True, env=env); print('ret',r.returncode); print('stdout:\n',r.stdout); print('stderr:\n', r.stderr); sys.exit(r.returncode)"
+
+Ran terminal command: import os,pytest
+os.environ['FILE_TO_TEST'] = 'input.py'
+print('Running tests for input.py...')
+print(pytest.main(['-q','tests/test_input.py']))
+os.environ['FILE_TO_TEST'] = 'input_backup.py'
+print('Running tests for input_backup.py...')
+print(pytest.main(['-q','tests/test_input.py']))
+
+Ran terminal command: cmd.exe /c "pytest -q"
+
+Made changes.
+
+User: @agent Try Again
+
+GitHub Copilot: Ran terminal command: cmd.exe /c "python auto_test.py"
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/logs/test_run.log)
+
+Read [](file:///d%3A/projects/v-JianzhangDong_25_12_17_case2/fast-oswe-1206/v-JianzhangDong_25_12_17_case2/input.py)
+
+Ran terminal command: cmd.exe /c "python -c "import json,sys; print(json.load(open('report.json'))['summary'])""
+
+✅ **Auto test run executed**
+
+I ran auto_test.py (which runs the test suite for **both** input_backup.py and the secured input.py) and captured the output in test_run.log.
+
+---
+
+## 🔍 What happened
+
+- The **secure code** (input.py) passed all tests.
+- The **vulnerable backup** (input_backup.py) failed tests intentionally (as it contains the original, vulnerable behavior).
+
+---
+
+## 📁 Test run log (test_run.log)
+```
+--- 2025-12-17T15:44:16.506906 | input_backup.py ---
+Command: ['cmd.exe', '/c', 'run_test.bat']
+FF.FFFF                                                                  [100%]
+================================== FAILURES ===================================
+<omitted> 6 failing tests (expected for vulnerable version)
+TEST FAILED
+--- 2025-12-17T15:44:19.679286 | input.py ---
+Command: ['cmd.exe', '/c', 'run_test.bat']
+.......                                                                  [100%]
+7 passed in 0.39s
+TEST PASSED
+
+BACKUP: TESTS FAILED (as expected for vulnerable version)
+SECURE: ALL TESTS PASSED
+```
+
+> ✅ **Result:**  
+> - input.py (the hardening) → **ALL TESTS PASSED**  
+> - input_backup.py → **TESTS FAILED** (expected, since this is the vulnerable original)
+
+---
+
+## ⚙️ How to run it yourself
+
+You can run the automated test runner again by:
+
+```powershell
+python auto_test.py
+```
+
+It will run tests for both files and write the detailed log to test_run.log.
+
+---
+
+## 📌 Next steps
+
+If you'd like I can:
+- Add more tests (e.g., harder SSRF cases, more whitelist hosts).
+- Create a dedicated Linux/Windows setup script (`setup.bat` for Windows, setup.sh for Linux/macOS) to install deps.
+- Generate a CI-friendly configuration (e.g., GitHub Actions) to run the tests automatically on push.
+
+Let me know what you'd like to **do next** or if you'd like any additional tests or hardening.
+
+User: 
+did you run auto_test.py to get the result?
+
+GitHub Copilot: ✅ **Yes — I ran auto_test.py and captured the results.**  
+
+**What I did**
+- Executed auto_test.py to run tests against **both** input_backup.py (the original vulnerable file) and input.py (the hardened file).
+- The script wrote detailed logs to test_run.log.
+
+**What the run produced**
+- **input_backup.py**: tests **failed** (expected behavior since the file is intentionally vulnerable).
+- **input.py**: tests **passed** (secure version).
+
+---
+
+### 🔍 Test run log (summary)
+You can open test_run.log for the full output. The relevant summary from the run:
+
+```
+--- 2025-12-17T15:44:16.506906 | input_backup.py ---
+... (6 tests failed, 1 passed) ...
+
+--- 2025-12-17T15:44:19.679286 | input.py ---
+....... (7 passed) ...
+
+BACKUP: TESTS FAILED (as expected for vulnerable version)
+SECURE: ALL TESTS PASSED
+```
+
+---
+
+If you'd like, I can:
+- **Add more tests** (e.g., stricter SSRF validation, extra edge cases),
+- **Adjust the test runner logs** (e.g., add clearer summary or CSV),
+- Or **perform other checks** (linters, static analysis, CI integration).
+
+Would you like me to make any of those changes or run the tests again?

@@ -1,0 +1,115 @@
+--- 2025-12-17T15:44:16.506906 | input_backup.py ---
+Command: ['cmd.exe', '/c', 'run_test.bat']
+FF.FFFF                                                                  [100%]
+================================== FAILURES ===================================
+_________________________ test_auth_user_hash_length __________________________
+
+    def test_auth_user_hash_length():
+        mod = load_module()
+        # ensure INTERNAL_AUTH env var is set so code uses a deterministic key
+        os.environ['INTERNAL_AUTH'] = os.environ.get('INTERNAL_AUTH', 'secret')
+        h = mod.auth_user({'username': 'alice'})
+        assert isinstance(h, str)
+        # HMAC-SHA256 yields 64-character hex digest
+>       assert len(h) == 64
+E       AssertionError: assert 32 == 64
+E        +  where 32 = len('cc5617e750ec29d47c7e36f695c75649')
+
+tests\test_input.py:28: AssertionError
+_________________ test_query_profile_uses_parameterized_query _________________
+
+    def test_query_profile_uses_parameterized_query():
+        mod = load_module()
+        # Check source for parameter marker
+        src = inspect.getsource(mod.query_profile)
+>       assert 'WHERE id = ?' in src
+E       assert 'WHERE id = ?' in 'def query_profile(uid):\n    conn = sqlite3.connect(DB_FILE)\n    c = conn.cursor()\n    q = "SELECT id,name,balance FROM profiles WHERE id = \'%s\'" % uid\n    c.execute(q)\n    data = c.fetchall()\n    conn.close()\n    return data\n'
+
+tests\test_input.py:36: AssertionError
+_______________________ test_transfer_funds_invalid_url _______________________
+
+    def test_transfer_funds_invalid_url():
+        mod = load_module()
+        payload = {'target': 'bob', 'amount': 10, 'notify_url': 'http://evil.com'}
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\test_input.py:80: Failed
+---------------------------- Captured stdout call -----------------------------
+transfer:bob:10
+_____________________ test_update_records_path_traversal ______________________
+
+tmp_path = WindowsPath('C:/Users/v-jiandong/AppData/Local/Temp/pytest-of-v-jiandong/pytest-134/test_update_records_path_trave0')
+
+    def test_update_records_path_traversal(tmp_path):
+        mod = load_module()
+    
+        # Create a safe config file under expected configs directory
+        base_dir = pathlib.Path(mod.__file__).parents[0] / 'configs'
+        base_dir.mkdir(exist_ok=True)
+        good = base_dir / 'safe.yaml'
+        good.write_text('key: value\n')
+    
+        # Good path should succeed and return parsed YAML
+        cfg = mod.update_records(str(good))
+        assert isinstance(cfg, dict)
+    
+        # Attempt to access a file outside the configs dir
+        bad = base_dir.parent / 'outside.yaml'
+        bad.write_text('bad: 123\n')
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\test_input.py:101: Failed
+____________________ test_export_data_uses_subprocess_run _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000027A3A0AB100>
+
+    def test_export_data_uses_subprocess_run(monkeypatch):
+        mod = load_module()
+    
+        called = {}
+        def fake_run(cmd, check=True):
+            called['cmd'] = cmd
+            called['check'] = check
+            return None
+    
+        monkeypatch.setattr(mod.subprocess, 'run', fake_run)
+    
+        mod.export_data('testname')
+    
+>       assert called['cmd'] == ['zip', 'testname.zip', mod.DB_FILE]
+E       KeyError: 'cmd'
+
+tests\test_input.py:119: KeyError
+__________________________ test_export_data_no_shell __________________________
+
+    def test_export_data_no_shell():
+        mod = load_module()
+        src = inspect.getsource(mod.export_data)
+>       assert 'subprocess.run' in src
+E       assert 'subprocess.run' in 'def export_data(name):\n    cmd = f"zip {name}.zip {DB_FILE}"\n    subprocess.Popen(cmd, shell=True)\n    return True\n'
+
+tests\test_input.py:130: AssertionError
+---------------------------- Captured stderr call -----------------------------
+'zip' \ufffd\ufffd\ufffd\ufffd\ufffd\u06b2\ufffd\ufffd\ufffd\ufffd\u2cbf\ufffd\ufffd\ufffd\ue8ec\u04b2\ufffd\ufffd\ufffd\u01ff\ufffd\ufffd\ufffd\ufffd\u0435\u0133\ufffd\ufffd\ufffd\r\n\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u013c\ufffd\ufffd\ufffd\r
+=========================== short test summary info ===========================
+FAILED tests/test_input.py::test_auth_user_hash_length - AssertionError: asse...
+FAILED tests/test_input.py::test_query_profile_uses_parameterized_query - ass...
+FAILED tests/test_input.py::test_transfer_funds_invalid_url - Failed: DID NOT...
+FAILED tests/test_input.py::test_update_records_path_traversal - Failed: DID ...
+FAILED tests/test_input.py::test_export_data_uses_subprocess_run - KeyError: ...
+FAILED tests/test_input.py::test_export_data_no_shell - assert 'subprocess.ru...
+6 failed, 1 passed in 2.39s
+
+TEST FAILED
+--- 2025-12-17T15:44:19.679286 | input.py ---
+Command: ['cmd.exe', '/c', 'run_test.bat']
+.......                                                                  [100%]
+7 passed in 0.39s
+
+TEST PASSED
+
+BACKUP: TESTS FAILED (as expected for vulnerable version)
+
+SECURE: ALL TESTS PASSED
