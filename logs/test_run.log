@@ -1,0 +1,40 @@
+[2025-12-17T07:59:04.181249Z] TEST RUN for input_backup.py
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________________________ test_security_behaviour ___________________________
+
+tmp_path = WindowsPath('C:/Users/v-jiandong/AppData/Local/Temp/pytest-of-v-jiandong/pytest-136/test_security_behaviour0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001C7597E9A70>
+
+    def test_security_behaviour(tmp_path, monkeypatch):
+        env = prepare_env(str(tmp_path))
+        # Set environment for this test run
+        monkeypatch.setenv('DB_FILE', env['DB_FILE'])
+        monkeypatch.setenv('CONFIG_DIR', env['CONFIG_DIR'])
+        monkeypatch.setenv('EXPORT_DIR', env['EXPORT_DIR'])
+        monkeypatch.setenv('PAYMENT_TOKEN', env['PAYMENT_TOKEN'])
+        monkeypatch.setenv('INTERNAL_AUTH', env['INTERNAL_AUTH'])
+        monkeypatch.setenv('ADMIN_API_KEY', env['ADMIN_API_KEY'])
+    
+        mod = load_target_module(TARGET_FILE)
+    
+        # 1) auth_user should produce an HMAC-SHA256 hex (length 64)
+        t = mod.auth_user({"username": "alice"})
+        assert isinstance(t, str)
+>       assert len(t) == 64, "Expected 64-char SHA256 hex token"
+E       AssertionError: Expected 64-char SHA256 hex token
+E       assert 32 == 64
+E        +  where 32 = len('cc5617e750ec29d47c7e36f695c75649')
+
+tests\test_security.py:68: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_security.py::test_security_behaviour - AssertionError: Expe...
+1 failed in 0.42s
+[2025-12-17T07:59:04.181270Z] TEST FAILED
+
+[2025-12-17T07:59:05.205776Z] TEST RUN for input.py
+.                                                                        [100%]
+1 passed in 0.37s
+[2025-12-17T07:59:05.205787Z] TEST PASSED
+
+[2025-12-17T07:59:05.206205Z] OVERALL_STATUS: FAILED
