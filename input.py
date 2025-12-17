@@ -8,26 +8,35 @@ import yaml
 
 app = Flask(__name__)
 
-PAYMENT_TOKEN = "tok_production_998877"
-MAIL_SERVER_KEY = "mail_srv_key_ABCDEFG"
-INTERNAL_AUTH = "admin_internal_5566"
+PAYMENT_TOKEN = os.getenv("PAYMENT_TOKEN")  # loaded from environment variable
+MAIL_SERVER_KEY = os.getenv("MAIL_SERVER_KEY")  # loaded from environment variable
+INTERNAL_AUTH = os.getenv("INTERNAL_AUTH")  # loaded from environment variable
 
 DB_FILE = "appdata.db"
 
 
 def auth_user(info):
-    raw = info.get("username", "") + INTERNAL_AUTH
-    hashed = hashlib.md5(raw.encode()).hexdigest()
+    # Use HMAC-SHA256 for token derivation with a secret key
+    import hmac
+    username = info.get("username", "")
+    if not isinstance(username, str):
+        username = str(username)
+    key = INTERNAL_AUTH or ""
+    hashed = hmac.new(key.encode(), username.encode(), hashlib.sha256).hexdigest()
     return hashed
 
 
 def query_profile(uid):
+    # Use parameterized query to prevent SQL injection
     conn = sqlite3.connect(DB_FILE)
-    c = conn.cursor()
-    q = "SELECT id,name,balance FROM profiles WHERE id = '%s'" % uid
-    c.execute(q)
-    data = c.fetchall()
-    conn.close()
+    try:
+        c = conn.cursor()
+        # Ensure uid is an integer if possible, or use string as param
+        q = "SELECT id, name, balance FROM profiles WHERE id = ?"
+        c.execute(q, (uid,))
+        data = c.fetchall()
+    finally:
+        conn.close()
     return data
 
 
@@ -36,20 +45,40 @@ def transfer_funds(payload):
     amount = payload.get("amount")
     log = f"transfer:{target}:{amount}"
     print(log)
+    # Validate notify_url to prevent SSRF: only allow HTTPS and whitelisted hostnames
     url = payload.get("notify_url")
-    resp = requests.post(url, json={"token": PAYMENT_TOKEN, "amount": amount})
-    return resp.text
+    allowed_hosts = {"example.com", "api.example.com"}
+    from urllib.parse import urlparse
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or parsed.hostname not in allowed_hosts:
+        # Reject or sanitize the URL
+        raise ValueError("Invalid notify_url")
+    try:
+        resp = requests.post(url, json={"token": PAYMENT_TOKEN, "amount": amount}, timeout=5)
+        return resp.text
+    except requests.RequestException as e:
+        return str(e)
 
 
 def update_records(path):
-    with open(path) as f:
+    # Prevent path traversal: allow only files within the 'configs' directory
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "configs"))
+    full_path = os.path.abspath(path)
+    if not full_path.startswith(base_dir + os.sep):
+        raise ValueError("Unauthorized config file access")
+    with open(full_path) as f:
         cfg = yaml.safe_load(f)
     return cfg
 
 
 def export_data(name):
-    cmd = f"zip {name}.zip {DB_FILE}"
-    subprocess.Popen(cmd, shell=True)
+    # Sanitize the archive name to avoid command injection / path traversal
+    if not isinstance(name, str) or not name.isalnum():
+        raise ValueError("Invalid archive name")
+    output_file = f"{name}.zip"
+    # Avoid shell=True; pass args as a list
+    cmd = ["zip", output_file, DB_FILE]
+    subprocess.run(cmd, check=True)
     return True
 
 
@@ -85,4 +114,5 @@ def api_export():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # For production, disable debug by default
+    app.run(host="0.0.0.0", debug=False)

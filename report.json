@@ -1,0 +1,59 @@
+{
+  "summary": {
+    "total_vulnerabilities": 6,
+    "critical": 0,
+    "high": 6,
+    "medium": 0,
+    "low": 0
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [11,12,13],
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"\nMAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"\nINTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "PAYMENT_TOKEN = os.getenv(\"PAYMENT_TOKEN\")  # loaded from environment variable\nMAIL_SERVER_KEY = os.getenv(\"MAIL_SERVER_KEY\")  # loaded from environment variable\nINTERNAL_AUTH = os.getenv(\"INTERNAL_AUTH\")  # loaded from environment variable",
+      "fix_explanation": "Hardcoded secrets were removed and replaced with environment variables so credentials are not present in code and can be managed securely."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [19,20],
+      "original": "raw = info.get(\"username\", \"\") + INTERNAL_AUTH\nhashed = hashlib.md5(raw.encode()).hexdigest()",
+      "updated": "import hmac\nusername = info.get(\"username\", \"\")\nif not isinstance(username, str):\n    username = str(username)\nkey = INTERNAL_AUTH or \"\"\nhashed = hmac.new(key.encode(), username.encode(), hashlib.sha256).hexdigest()",
+      "fix_explanation": "Replaced weak MD5 hashing with an HMAC-SHA256 using a secret key, eliminating the insecure hashing algorithm and using a stronger, keyed hash."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [27,28],
+      "original": "q = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\nc.execute(q)",
+      "updated": "q = \"SELECT id, name, balance FROM profiles WHERE id = ?\"\nc.execute(q, (uid,))",
+      "fix_explanation": "Replaced string interpolation in SQL query with parameterized queries to prevent SQL injection."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [39,40],
+      "original": "url = payload.get(\"notify_url\")\nresp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})",
+      "updated": "url = payload.get(\"notify_url\")\nallowed_hosts = {\"example.com\", \"api.example.com\"}\nfrom urllib.parse import urlparse\nparsed = urlparse(url)\nif parsed.scheme != \"https\" or parsed.hostname not in allowed_hosts:\n    raise ValueError(\"Invalid notify_url\")\ntry:\n    resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount}, timeout=5)\n    return resp.text\nexcept requests.RequestException as e:\n    return str(e)",
+      "fix_explanation": "Added validation on the notify_url to restrict to HTTPS and whitelisted hosts, and added a timeout and exception handling to avoid SSRF and denial-of-service issues."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [45,46],
+      "original": "with open(path) as f:\n    cfg = yaml.safe_load(f)",
+      "updated": "base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), \"configs\"))\nfull_path = os.path.abspath(path)\nif not full_path.startswith(base_dir + os.sep):\n    raise ValueError(\"Unauthorized config file access\")\nwith open(full_path) as f:\n    cfg = yaml.safe_load(f)",
+      "fix_explanation": "Limited file access to a safe configs directory and prevented path traversal attacks by validating the resolved path."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [51,52],
+      "original": "cmd = f\"zip {name}.zip {DB_FILE}\"\nsubprocess.Popen(cmd, shell=True)",
+      "updated": "if not isinstance(name, str) or not name.isalnum():\n    raise ValueError(\"Invalid archive name\")\noutput_file = f\"{name}.zip\"\ncmd = [\"zip\", output_file, DB_FILE]\nsubprocess.run(cmd, check=True)",
+      "fix_explanation": "Sanitized archive name and used subprocess.run with an argument list (no shell) to avoid command injection and shell escape vulnerabilities."
+    }
+  ]
+}
