@@ -1,0 +1,221 @@
+[2025-12-17T06:47:53.874851Z] AUTO TEST START
+[2025-12-17T06:47:53.875671Z] Starting app input_backup.py
+[2025-12-17T06:47:55.882579Z] Running vulnerability tests against input_backup.py (expect_vulnerable=True)
+[2025-12-17T06:47:58.065511Z] Output for input_backup.py:
+{
+  "sql_injection": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "command_injection": {
+    "vulnerable": false,
+    "info": "exists=False"
+  },
+  "config_read": {
+    "vulnerable": true,
+    "info": "response=\"topsecret\""
+  },
+  "ssrf_token_leak": {
+    "vulnerable": true,
+    "info": "captured_keys=['token', 'amount']"
+  },
+  "auth_md5": {
+    "vulnerable": true,
+    "info": "token=6142bb45cc9e470ef5e8186cb290b4de"
+  },
+  "profile_auth": {
+    "vulnerable": false,
+    "info": "status=500"
+  }
+}
+
+[2025-12-17T06:47:58.072555Z] Result for input_backup.py: FAIL (exit 2)
+[2025-12-17T06:47:58.078698Z] Starting app input.py
+[2025-12-17T06:48:00.085738Z] Running vulnerability tests against input.py (expect_vulnerable=False)
+[2025-12-17T06:48:02.220755Z] Output for input.py:
+{
+  "sql_injection": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "command_injection": {
+    "vulnerable": false,
+    "info": "exists=False"
+  },
+  "config_read": {
+    "vulnerable": true,
+    "info": "response=\"topsecret\""
+  },
+  "ssrf_token_leak": {
+    "vulnerable": true,
+    "info": "captured_keys=['token', 'amount']"
+  },
+  "auth_md5": {
+    "vulnerable": true,
+    "info": "token=6142bb45cc9e470ef5e8186cb290b4de"
+  },
+  "profile_auth": {
+    "vulnerable": false,
+    "info": "status=500"
+  }
+}
+
+[2025-12-17T06:48:02.222164Z] Result for input.py: FAIL (exit 2)
+[2025-12-17T06:48:02.230997Z] TEST FAILED
+[2025-12-17T06:48:39.451081Z] AUTO TEST START
+[2025-12-17T06:48:39.451551Z] Preparing test DB and configs
+[2025-12-17T06:48:39.518692Z] Starting app input_backup.py
+[2025-12-17T06:48:41.590270Z] Running vulnerability tests against input_backup.py (expect_vulnerable=True)
+[2025-12-17T06:48:41.728370Z] Output for input_backup.py:
+  File "D:\projects\v-JianzhangDong_25_12_17_case2\oswe-mini-m22a5s330\v-JianzhangDong_25_12_17_case2\tests\test_vulnerabilities.py", line 53
+    payload = "inj; python -c 'open("""/tmp/injected_marker""", """w""" ).write("""x""")'"
+                                                                                    ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 154)
+
+[2025-12-17T06:48:41.729519Z] Result for input_backup.py: FAIL (exit 1)
+[2025-12-17T06:48:41.736584Z] Starting app input.py
+[2025-12-17T06:48:43.743190Z] Running vulnerability tests against input.py (expect_vulnerable=False)
+[2025-12-17T06:48:43.883481Z] Output for input.py:
+  File "D:\projects\v-JianzhangDong_25_12_17_case2\oswe-mini-m22a5s330\v-JianzhangDong_25_12_17_case2\tests\test_vulnerabilities.py", line 53
+    payload = "inj; python -c 'open("""/tmp/injected_marker""", """w""" ).write("""x""")'"
+                                                                                    ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 154)
+
+[2025-12-17T06:48:43.884541Z] Result for input.py: FAIL (exit 1)
+[2025-12-17T06:48:43.890682Z] TEST FAILED
+[2025-12-17T06:48:55.392711Z] AUTO TEST START
+[2025-12-17T06:48:55.393206Z] Preparing test DB and configs
+[2025-12-17T06:48:55.457853Z] Starting app input_backup.py
+[2025-12-17T06:48:57.512452Z] Running vulnerability tests against input_backup.py (expect_vulnerable=True)
+[2025-12-17T06:48:59.703467Z] Output for input_backup.py:
+{
+  "sql_injection": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "command_injection": {
+    "vulnerable": false,
+    "info": "exists=False marker=D:\\projects\\v-JianzhangDong_25_12_17_case2\\oswe-mini-m22a5s330\\v-JianzhangDong_25_12_17_case2\\injected_marker.txt"
+  },
+  "config_read": {
+    "vulnerable": true,
+    "info": "response=\"topsecret\""
+  },
+  "ssrf_token_leak": {
+    "vulnerable": true,
+    "info": "captured_keys=['token', 'amount']"
+  },
+  "auth_md5": {
+    "vulnerable": true,
+    "info": "token=6142bb45cc9e470ef5e8186cb290b4de"
+  },
+  "profile_auth": {
+    "vulnerable": true,
+    "info": "status=200"
+  }
+}
+
+[2025-12-17T06:48:59.704455Z] Result for input_backup.py: FAIL (exit 2)
+[2025-12-17T06:48:59.711488Z] Starting app input.py
+[2025-12-17T06:49:01.717839Z] Running vulnerability tests against input.py (expect_vulnerable=False)
+[2025-12-17T06:49:04.162353Z] Output for input.py:
+{
+  "sql_injection": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "command_injection": {
+    "vulnerable": false,
+    "info": "exists=False marker=D:\\projects\\v-JianzhangDong_25_12_17_case2\\oswe-mini-m22a5s330\\v-JianzhangDong_25_12_17_case2\\injected_marker.txt"
+  },
+  "config_read": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "ssrf_token_leak": {
+    "vulnerable": false,
+    "info": "no capture"
+  },
+  "auth_md5": {
+    "vulnerable": false,
+    "info": "token=24039245d9684176b8bf3cff3b6fd15f047a6fafee83c619baf618fa5c597622:1765954144"
+  },
+  "profile_auth": {
+    "vulnerable": false,
+    "info": "status=401"
+  }
+}
+
+[2025-12-17T06:49:04.163963Z] Result for input.py: PASS (exit 0)
+[2025-12-17T06:49:04.170487Z] TEST FAILED
+[2025-12-17T06:49:26.257089Z] AUTO TEST START
+[2025-12-17T06:49:26.257973Z] Preparing test DB and configs
+[2025-12-17T06:49:26.322632Z] Starting app input_backup.py
+[2025-12-17T06:49:28.380433Z] Running vulnerability tests against input_backup.py (expect_vulnerable=True)
+[2025-12-17T06:49:30.992876Z] Output for input_backup.py:
+{
+  "sql_injection": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "command_injection": {
+    "vulnerable": false,
+    "info": "exists=False marker=D:\\projects\\v-JianzhangDong_25_12_17_case2\\oswe-mini-m22a5s330\\v-JianzhangDong_25_12_17_case2\\injected_marker.txt"
+  },
+  "config_read": {
+    "vulnerable": true,
+    "info": "response=\"topsecret\""
+  },
+  "ssrf_token_leak": {
+    "vulnerable": true,
+    "info": "captured_keys=['token', 'amount']"
+  },
+  "auth_md5": {
+    "vulnerable": true,
+    "info": "token=6142bb45cc9e470ef5e8186cb290b4de"
+  },
+  "profile_auth": {
+    "vulnerable": true,
+    "info": "status=200"
+  },
+  "summary": {
+    "vulnerabilities_found": 4
+  }
+}
+
+[2025-12-17T06:49:30.994780Z] Result for input_backup.py: PASS (exit 0)
+[2025-12-17T06:49:31.002631Z] Starting app input.py
+[2025-12-17T06:49:33.010000Z] Running vulnerability tests against input.py (expect_vulnerable=False)
+[2025-12-17T06:49:35.401761Z] Output for input.py:
+{
+  "sql_injection": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "command_injection": {
+    "vulnerable": false,
+    "info": "exists=False marker=D:\\projects\\v-JianzhangDong_25_12_17_case2\\oswe-mini-m22a5s330\\v-JianzhangDong_25_12_17_case2\\injected_marker.txt"
+  },
+  "config_read": {
+    "vulnerable": false,
+    "info": "invalid json"
+  },
+  "ssrf_token_leak": {
+    "vulnerable": false,
+    "info": "no capture"
+  },
+  "auth_md5": {
+    "vulnerable": false,
+    "info": "token=7fbdf691d95e4ab4154c9684a9b2d9611d2ae5156822d28b4825bc76dc9da34c:1765954175"
+  },
+  "profile_auth": {
+    "vulnerable": false,
+    "info": "status=401"
+  },
+  "summary": {
+    "vulnerabilities_found": 0
+  }
+}
+
+[2025-12-17T06:49:35.402756Z] Result for input.py: PASS (exit 0)
+[2025-12-17T06:49:35.408819Z] TEST PASSED
