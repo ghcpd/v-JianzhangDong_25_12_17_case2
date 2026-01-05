@@ -1,0 +1,91 @@
+{
+  "summary": {
+    "total_vulnerabilities": 10,
+    "critical": 4,
+    "high": 4,
+    "medium": 1,
+    "low": 1
+  },
+  "details": [
+    {
+      "id": 1,
+      "file": "input.py",
+      "line_numbers": [11,13],
+      "original": "PAYMENT_TOKEN = \"tok_production_998877\"\nMAIL_SERVER_KEY = \"mail_srv_key_ABCDEFG\"\nINTERNAL_AUTH = \"admin_internal_5566\"",
+      "updated": "PAYMENT_TOKEN = os.environ.get(\"PAYMENT_TOKEN\")\nMAIL_SERVER_KEY = os.environ.get(\"MAIL_SERVER_KEY\")\nINTERNAL_AUTH = os.environ.get(\"INTERNAL_AUTH\")\nADMIN_API_KEY = os.environ.get(\"ADMIN_API_KEY\")",
+      "fix_explanation": "Hardcoded secrets removed and loaded from environment variables to avoid credential leakage in source control. Severity: Critical."
+    },
+    {
+      "id": 2,
+      "file": "input.py",
+      "line_numbers": [18,21],
+      "original": "def auth_user(info):\n    raw = info.get(\"username\", \"\") + INTERNAL_AUTH\n    hashed = hashlib.md5(raw.encode()).hexdigest()\n    return hashed",
+      "updated": "def auth_user(info):\n    username = info.get(\"username\", \"\")\n    if not username: raise ValueError(\"username required\")\n    ts = str(int(time.time()))\n    msg = f\"{username}:{ts}\".encode()\n    token = hmac.new(INTERNAL_AUTH.encode(), msg, digestmod=hashlib.sha256).hexdigest()\n    return f\"{token}:{ts}\"",
+      "fix_explanation": "Weak MD5-based token generation replaced with HMAC-SHA256 and timestamping to provide better cryptographic strength and less predictability. Severity: High."
+    },
+    {
+      "id": 3,
+      "file": "input.py",
+      "line_numbers": [27,28],
+      "original": "q = \"SELECT id,name,balance FROM profiles WHERE id = '%s'\" % uid\n    c.execute(q)",
+      "updated": "c.execute(\"SELECT id, name, balance FROM profiles WHERE id = ?\", (int(uid),))",
+      "fix_explanation": "SQL injection vulnerability fixed by using parameterized queries and validating the uid input (digits only). Severity: Critical."
+    },
+    {
+      "id": 4,
+      "file": "input.py",
+      "line_numbers": [34,41],
+      "original": "def transfer_funds(payload):\n    target = payload.get(\"target\")\n    amount = payload.get(\"amount\")\n    log = f\"transfer:{target}:{amount}\"\n    print(log)\n    url = payload.get(\"notify_url\")\n    resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})\n    return resp.text",
+      "updated": "def transfer_funds(payload):\n    ... validate amount and notify_url ...\n    signature = hmac.new(PAYMENT_TOKEN.encode(), f\"{target}:{amount}\".encode(), hashlib.sha256).hexdigest()\n    resp = requests.post(notify_url, json={\"signature\": signature, \"amount\": amount}, timeout=5)\n    return {\"status\": \"notified\", \"http_status\": resp.status_code}",
+      "fix_explanation": "Prevent SSRF and leakage of raw PAYMENT_TOKEN by validating notify_url, adding request timeouts, sending a HMAC signature instead of full token, and handling request errors. Severity: Critical."
+    },
+    {
+      "id": 5,
+      "file": "input.py",
+      "line_numbers": [44,47],
+      "original": "def update_records(path):\n    with open(path) as f:\n        cfg = yaml.safe_load(f)\n    return cfg",
+      "updated": "def update_records(filename):\n    if not filename or os.path.basename(filename) != filename: raise ValueError(\"invalid filename\")\n    if not filename.endswith((\".yaml\", \".yml\")): raise ValueError(\"unsupported file type\")\n    full_path = os.path.join(CONFIG_DIR, filename)\n    with open(full_path) as f: cfg = yaml.safe_load(f)\n    return cfg",
+      "fix_explanation": "Arbitrary file read prevented by restricting to a safe configuration directory, validating filename and extensions, and preventing path traversal. Severity: High."
+    },
+    {
+      "id": 6,
+      "file": "input.py",
+      "line_numbers": [50,53],
+      "original": "def export_data(name):\n    cmd = f\"zip {name}.zip {DB_FILE}\"\n    subprocess.Popen(cmd, shell=True)\n    return True",
+      "updated": "def export_data(name):\n    if not name or not re.fullmatch(r\"[A-Za-z0-9_\\-]+\", name): name = \"export\"\n    zip_name = f\"{name}.zip\"\n    with zipfile.ZipFile(zip_name, \"w\") as zf: zf.write(DB_FILE, arcname=os.path.basename(DB_FILE))\n    return zip_name",
+      "fix_explanation": "Command injection vulnerability mitigated by removing shell invocation and using Python's zipfile to create archives, plus sanitizing the provided name. Severity: Critical."
+    },
+    {
+      "id": 7,
+      "file": "input.py",
+      "line_numbers": [87,88],
+      "original": "if __name__ == \"__main__\":\n    app.run(debug=True)",
+      "updated": "if __name__ == \"__main__\":\n    debug_flag = os.environ.get(\"FLASK_DEBUG\", \"0\") == \"1\"\n    app.run(host=\"0.0.0.0\", debug=debug_flag)",
+      "fix_explanation": "Disabled debug mode by default and control it via an environment variable to avoid accidental exposure of interactive debuggers in production. Severity: High."
+    },
+    {
+      "id": 8,
+      "file": "input.py",
+      "line_numbers": [62,72],
+      "original": "@app.route(\"/profile\")\ndef api_profile():\n    uid = request.args.get(\"id\")\n    return jsonify(query_profile(uid))\n...",
+      "updated": "@app.route(\"/profile\")\n@require_api_key\ndef api_profile():\n    uid = request.args.get(\"id\")\n    return jsonify(query_profile(uid))",
+      "fix_explanation": "Added API key based protection (X-API-KEY) to sensitive endpoints to prevent unauthenticated access. Severity: High."
+    },
+    {
+      "id": 9,
+      "file": "input.py",
+      "line_numbers": [36,39],
+      "original": "log = f\"transfer:{target}:{amount}\"\n    print(log)",
+      "updated": "logger.info(\"transfer request for target=%s amount=%s\", target, \"[REDACTED]\")",
+      "fix_explanation": "Avoid logging sensitive data directly; switched to structured logging with redaction. Severity: Medium."
+    },
+    {
+      "id": 10,
+      "file": "input.py",
+      "line_numbers": [40,40],
+      "original": "resp = requests.post(url, json={\"token\": PAYMENT_TOKEN, \"amount\": amount})",
+      "updated": "resp = requests.post(notify_url, json={\"signature\": signature, \"amount\": amount}, timeout=5)",
+      "fix_explanation": "Added timeouts and removed sending raw PAYMENT_TOKEN to external endpoints. Severity: Medium."
+    }
+  ]
+}
