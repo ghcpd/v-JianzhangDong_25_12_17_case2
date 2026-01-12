@@ -1,0 +1,48 @@
+You are a software security engineer. Your task is to audit and secure the provided source file named input.py.
+
+Your responsibilities include:
+
+1. Identify all vulnerabilities in input.py and list each with file name and line numbers.
+2. Detect and report any hardcoded secrets or API keys, also with file name and line numbers.
+3. Create a backup of the original input.py named input_backup.py before making any changes.
+4. Repair the source code to eliminate all identified vulnerabilities and produce a secure version of input.py.
+5. Provide a detailed explanation for each fix, including vulnerability type, severity, affected lines, and the secure replacement. Save this information in a structured JSON file named report.json using the following format:
+
+{
+  "summary": {
+    "total_vulnerabilities": <integer>,
+    "critical": <integer>,
+    "high": <integer>,
+    "medium": <integer>,
+    "low": <integer>
+  },
+  "details": [
+    {
+      "id": <integer>,
+      "file": "input.py",
+      "line_numbers": [<list of integers>],
+      "original": "<string>",
+      "updated": "<string>",
+      "fix_explanation": "<string>",
+    }
+  ]
+}
+
+6. Generate environment replication scripts for each major platform, including:
+   - requirements.txt, Dockerfile, and setup.sh (for Linux/macOS)
+   - run_test.sh (Linux/macOS), run_test.bat (Windows)
+
+7. Implement an automatic test execution script named auto_test.py that:
+   - Detects the current environment (Windows/Linux/Docker)
+   - Runs the corresponding test script (run_test.sh for Linux/macOS, run_test.bat for Windows)
+   - Saves all output logs to logs/test_run.log
+   - The log must include a timestamp and a final status line: TEST PASSED or TEST FAILED
+   - auto_test.py should run tests for both input_backup.py and input.py in sequence, log the results for each test (including timestamp, file name, output, and final status), and determine success or failure based on the actual test script exit codes. 
+   - These tests are intended to verify that the security fixes applied to input.py resolve the issues present in input_backup.py.
+
+8. Generate a README.md file that provides:
+   - An overview of all generated files and their purpose.
+   - Step-by-step instructions to set up the environment.
+   - How to run the test scripts (run_test.sh for Linux/macOS, run_test.bat for Windows).
+   - How to use auto_test.py for automatic environment detection and testing.
+   - How to check logs in logs/test_run.log and interpret TEST PASSED or TEST FAILED status.
